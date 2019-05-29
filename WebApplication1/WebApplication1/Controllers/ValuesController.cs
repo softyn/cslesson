@@ -70,9 +70,13 @@ namespace WebApplication1.Controllers
             return writeStatus.ToString();
         }
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("list,{a},{b},{c}")]
+        public List<string> Post(string a, string b, string c)
         {
+            lista.Add(a);
+            lista.Add(b);
+            lista.Add(c);
+            return lista;
         }
 
         // PUT api/values/5
@@ -81,10 +85,21 @@ namespace WebApplication1.Controllers
         {
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPatch("{a},{b}")]
+        public void Patch(string a, string b)
         {
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if (lista[i].Contains(a))
+                    lista[i] = b;
+            }
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{a}")]
+        public void Delete(string a)
+        {
+            lista.Remove(a);
         }
     }
 }
