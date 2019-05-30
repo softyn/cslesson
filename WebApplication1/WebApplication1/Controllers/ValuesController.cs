@@ -86,20 +86,22 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPatch("{a},{b}")]
-        public void Patch(string a, string b)
+        public List<string> Patch(string a, string b)
         {
             for (int i = 0; i < lista.Count; i++)
             {
                 if (lista[i].Contains(a))
                     lista[i] = b;
             }
+            return lista;
         }
 
         // DELETE api/values/5
         [HttpDelete("{a}")]
-        public void Delete(string a)
+        public List<string> Delete(string a)
         {
             lista.Remove(a);
+            return lista;
         }
     }
 }
