@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using WebApplication1.Tests;
 
 namespace WebApplication1
 {
@@ -14,7 +15,10 @@ namespace WebApplication1
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+             Tests1 t = new Tests1();
+             t.TestUser();
+                host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

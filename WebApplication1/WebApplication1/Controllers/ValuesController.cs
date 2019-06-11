@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DTO;
 
 namespace WebApplication1.Controllers
 {
@@ -27,6 +28,13 @@ namespace WebApplication1.Controllers
             lista.Add("aaaaa");
             lista.Add("bbbbb");
             lista.Add("ccccc");
+        }
+
+        // GET api/values
+        [HttpGet()]
+        public List<string> Get()
+        {
+            return lista;
         }
 
         // GET api/values
@@ -69,22 +77,32 @@ namespace WebApplication1.Controllers
             WriteStatus writeStatus =(WriteStatus) enumNumber;
             return writeStatus.ToString();
         }
-        // POST api/values
-        [HttpPost("list,{a},{b},{c}")]
-        public List<string> Post(string a, string b, string c)
-        {
-            lista.Add(a);
-            lista.Add(b);
-            lista.Add(c);
-            return lista;
-        }
+        //// POST api/values
+        //[HttpPost("list,{a},{b},{c}")]
+        //public List<string> Post(string a, string b, string c)
+        //{
+        //    lista.Add(a);
+        //    lista.Add(b);
+        //    lista.Add(c);
+        //    return lista;
+        //}
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //    var e = 1;
+        //}
+        [HttpPost()]
+        public void Post([FromBody]string value2)
         {
+            var e = 1;
         }
-
+        [HttpPost("sendObj")]
+        public void Post([FromBody]User user)
+        {
+            var e = 1;
+        }
         [HttpPatch("{a},{b}")]
         public List<string> Patch(string a, string b)
         {
