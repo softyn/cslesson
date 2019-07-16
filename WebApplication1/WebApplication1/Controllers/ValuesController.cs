@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DataAccess;
 using WebApplication1.DTO;
 
 namespace WebApplication1.Controllers
@@ -21,13 +22,15 @@ namespace WebApplication1.Controllers
 
 
         private List<string> lista;
-
+        private MysqlData adapter;
         public ValuesController()
         {
-            lista = new List<string>();
+            adapter = new MysqlData();
+            lista = adapter.LoadNames();
+            /*lista = new List<string>();
             lista.Add("aaaaa");
             lista.Add("bbbbb");
-            lista.Add("ccccc");
+            lista.Add("ccccc");*/
         }
 
         // GET api/values
@@ -61,8 +64,10 @@ namespace WebApplication1.Controllers
             lista.Add(a);
             lista.Add(b);
             lista.Add(c);
+            adapter.SaveNames(lista);
             return lista;
         }
+
 
         [HttpGet("enum,{enumName}")]
         public int Getaaa(string enumName)
