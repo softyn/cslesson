@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DataAccess;
 using WebApplication1.DTO;
@@ -22,22 +23,37 @@ namespace WebApplication1.Controllers
 
 
         private List<string> lista;
-        private MysqlData adapter;
-        public ValuesController()
+        private IDataSource adapter;
+        bool doneOk;
+        public ValuesController(IDataSource dataSource)
         {
-            adapter = new MysqlData();
-            lista = adapter.LoadNames();
+            adapter = dataSource;
+
+
             /*lista = new List<string>();
             lista.Add("aaaaa");
             lista.Add("bbbbb");
             lista.Add("ccccc");*/
         }
 
+        
         // GET api/values
         [HttpGet()]
-        public List<string> Get()
+        public JsonResult Get()
         {
-            return lista;
+            Response.Headers.Add("Access-Control-Allow-Origin","*");
+            lista = adapter.LoadNames(out doneOk);
+            if (doneOk == true)
+            {
+                return Json(new { ReturnedData = lista });
+            }
+            else
+            {
+                var res = new JsonResult(new { Error = "Error saving data" });
+                res.StatusCode = 500;
+                return res;
+            }
+            
         }
 
         // GET api/values
@@ -58,16 +74,71 @@ namespace WebApplication1.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("list,{a},{b},{c}")]
-        public List<string> Get(string a, string b, string c)
-        {
-            lista.Add(a);
-            lista.Add(b);
-            lista.Add(c);
-            adapter.SaveNames(lista);
-            return lista;
-        }
+      
+           
 
+            
+
+        
+        [HttpGet("list,{a},{b},{c}")]
+        public JsonResult Get(string a, string b, string c)
+        {
+            lista = adapter.LoadNames(out doneOk);
+            if (doneOk == true)
+            {
+                var templista = new List<string>();
+                templista.Add(a);
+                templista.Add(b);
+                templista.Add(c);
+                adapter.SaveNames(templista);
+                lista.AddRange(templista);
+                return Json(new { ReturnedData = lista });
+            }
+            else
+            {
+                return Json(new { Error = "Error saving data" });
+            }
+
+
+
+
+        }
+        [HttpGet("list2,{a},{b},{c}")]
+        
+        public JsonResult Get2(string a, string b, string c)
+        {
+            lista = adapter.LoadNames(out doneOk);
+            if (doneOk == true)
+            {
+                var templista = new List<string>();
+                templista.Add(a);
+                templista.Add(b);
+                templista.Add(c);
+                if (adapter.SaveNames(templista) == true)
+                {
+                    lista.AddRange(templista);
+                    return Json(new { ReturnedData = lista });
+                }
+                else
+                {
+                    var res = new JsonResult(new {Error = "Error saving data"});
+                    res.StatusCode = 500;
+                    return res;
+
+                }
+            }
+            else
+            {
+                var res = new JsonResult(new { Error = "Error loading data" });
+                res.StatusCode = 500;
+                return res;
+            }
+            
+
+            
+            //return lista;
+
+        }
 
         [HttpGet("enum,{enumName}")]
         public int Getaaa(string enumName)
@@ -109,22 +180,42 @@ namespace WebApplication1.Controllers
             var e = 1;
         }
         [HttpPatch("{a},{b}")]
-        public List<string> Patch(string a, string b)
+        public ActionResult Patch(string a, string b)
         {
-            for (int i = 0; i < lista.Count; i++)
+            lista = adapter.LoadNames(out doneOk);
+            if (doneOk == true)
             {
-                if (lista[i].Contains(a))
-                    lista[i] = b;
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    if (lista[i].Contains(a))
+                        lista[i] = b;
+                }
+                return Json(new { ReturnedData = lista });
             }
-            return lista;
+            else
+            {
+                return StatusCode(500, Json(new { Error = "Error loading data" }));
+            }
+            
+           
         }
 
         // DELETE api/values/5
         [HttpDelete("{a}")]
-        public List<string> Delete(string a)
+        public ActionResult Delete(string a)
         {
-            lista.Remove(a);
-            return lista;
+            lista = adapter.LoadNames(out doneOk);
+            if (doneOk == true)
+            {
+                lista.Remove(a);
+                return Json(new { ReturnedData = lista });
+            }
+            else
+            {
+                return StatusCode(500, Json(new { Error = "Error loading data" }));
+            }
+            
+            
         }
     }
 }
