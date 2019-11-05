@@ -1,0 +1,14 @@
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.deps.json
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.runtimeconfig.json
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.runtimeconfig.dev.json
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.dll
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.pdb
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.csprojAssemblyReference.cache
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.csproj.CoreCompileInputs.cache
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorAssemblyInfo.cache
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorAssemblyInfo.cs
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.AssemblyInfoInputs.cache
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.AssemblyInfo.cs
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorTargetAssemblyInfo.cache
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.dll
+C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.pdb
