@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GameAPI.DTO;
 using GameAPI.DataAccess;
+using Newtonsoft.Json.Linq;
 
 namespace GameAPI.Controllers
 {
@@ -18,7 +18,6 @@ namespace GameAPI.Controllers
     [Route("api/[controller]")]
     public class NewsValuesController : Controller
     {
-        private List<string> lista;
         private INewsDataSource _adapterNews; //do czego to tworzyliśmy?
         public NewsValuesController(INewsDataSource newsDataSource)
         {
@@ -32,29 +31,30 @@ namespace GameAPI.Controllers
 
             // GET api/news
             [HttpGet()]
-            public ActionResult<IEnumerable<string>> Get()
+            public ActionResult<IEnumerable<News>> Get()
             {                
-                DataAccess.NewsMysqlData getNews = new DataAccess.NewsMysqlData();
-                return getNews.LoadNews(out bool success);                     
+                var getNews = new NewsMysqlData();
+                return getNews.LoadNews(out bool success).ToList();                     
             }
 
             // GET api/news/5
             [HttpGet("{id}")]
-            public ActionResult<IEnumerable<string>> Get(int id)
+            public ActionResult<IEnumerable<News>> Get(int id)
             {
-                DataAccess.NewsMysqlData getNewsById = new DataAccess.NewsMysqlData();
-                return getNewsById.LoadNewsById(id, out bool success);
+                var getNewsById = new NewsMysqlData();
+                return getNewsById.LoadNewsById(id, out bool success).ToList();
             }
 
             // POST api/news
             [HttpPost]
-            public void Post([FromBody] string title, string text)
+            public void Post([FromBody] JObject data)
             {
                 News news = new News();
-                news.Title = title;
-                news.Text = text;
-                news.Date = DateTime.Now;
-                DataAccess.NewsMysqlData addNews = new DataAccess.NewsMysqlData();
+                data.ToObject<News>();
+                news.Title = data["title"].ToString();
+                news.Text = data["text"].ToString();
+                news.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var addNews = new DataAccess.NewsMysqlData();
                 addNews.SaveNews(news, out bool success);
             }
 
@@ -68,7 +68,7 @@ namespace GameAPI.Controllers
             [HttpDelete("{id}")]
             public void Delete(int id)
             {
-                DataAccess.NewsMysqlData addNews = new DataAccess.NewsMysqlData();
+                var addNews = new DataAccess.NewsMysqlData();
                 addNews.DeleteNews(id, out bool success);
             }
         }

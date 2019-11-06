@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using GameAPI.DataAccess;
+using GameAPI.DTO;
+using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +20,7 @@ namespace GameAPI.Controllers
     public class ProductsValuesController : Controller
     {
         private IProductsDataSource _adapterProducts; //do czego to tworzyliśmy?
-        private bool doneOk;
+
         public ProductsValuesController(IProductsDataSource productsDataSource)
         {
             _adapterProducts = productsDataSource;
@@ -30,39 +33,46 @@ namespace GameAPI.Controllers
 
         // GET: api/products
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Products>> Get()
         {
-            ProductsMysqlData getProducts = new DataAccess.ProductsMysqlData();
-            return getProducts.LoadProducts(out bool success);
+            var getProducts = new ProductsMysqlData();
+            return getProducts.LoadProducts(out bool success).ToList();
         }
 
         // GET api/products/5
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<string>> Get(int id)
+        public ActionResult<IEnumerable<Products>> Get(int id)
         {
-            ProductsMysqlData getProducts = new DataAccess.ProductsMysqlData();
-            return getProducts.LoadProductsById(id, out bool success);
+            var getProducts = new ProductsMysqlData();
+            return getProducts.LoadProductsById(id, out bool success).ToList();
         }
 
-            // POST api/products
-            [HttpPost]
-            public void Post([FromBody] string value)
-            {
-            }
-
-            // PUT api/products/5
-            [HttpPut("{id}")]
-            public void Put(int id, [FromBody] string value)
-            {
-            }
-
-            // DELETE api/products/5
-            [HttpDelete("{id}")]
-            public bool Delete(int id)
-            {
-                ProductsMysqlData getProducts = new DataAccess.ProductsMysqlData();
-                return getProducts.DeleteProduct(id, out bool success);
+        // POST api/products
+        [HttpPost]
+        public void Post([FromBody] JObject data)
+        {
+            Products product = new Products();
+            data.ToObject<News>();
+            product.Name = data["name"].ToString();
+            product.Description = data["description"].ToString();
+            product.Price = float.Parse(data["price"].ToString());
+            var addProduct = new ProductsMysqlData();
+            addProduct.SaveProduct(product, out bool success);
         }
-        
+
+        // PUT api/products/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE api/products/5
+        [HttpDelete("{id}")]
+        public bool Delete(int id)
+        {
+            var getProducts = new ProductsMysqlData();
+            return getProducts.DeleteProduct(id, out bool success);
+        }
+
     }
 }

@@ -8,7 +8,7 @@ namespace GameAPI.Interfaces
     interface INews
     {
         string Title { get; set; }
-        DateTime Date { get; set; }
+        string Date { get; set; }
         string Text { get; set; }
     }
 }
