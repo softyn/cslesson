@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using GameAPI.DataAccess;
 using GameAPI.DTO;
@@ -60,10 +63,36 @@ namespace GameAPI.Controllers
             addProduct.SaveProduct(product, out bool success);
         }
 
-        // PUT api/products/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PATCH api/products/5
+        [HttpPatch("{id}")]
+        public void Patch(int id, [FromBody] JObject data)
         {
+            Products product = new Products();
+            data.ToObject<News>();
+            product.Id = id;
+            var getProductById = new ProductsMysqlData();
+            var productOld = getProductById.LoadProductsById(id, out bool LoadSuccess).ToList();
+
+            if (data["name"].ToString().Length == 0)
+            {
+                product.Name = productOld.ElementAt(0).Name;
+            }
+            else product.Name = data["name"].ToString();
+
+            if (data["description"].ToString().Length == 0)
+            {
+                product.Description = productOld.ElementAt(0).Description;
+            }
+            else product.Description= data["description"].ToString();
+
+            if (data["price"].ToString().Length == 0)
+            {
+                product.Price = productOld.ElementAt(0).Price;
+            }
+            else product.Price = float.Parse(data["price"].ToString());
+
+            var addProduct = new DataAccess.ProductsMysqlData();
+            addProduct.EditProduct(product, out bool success);
         }
 
         // DELETE api/products/5

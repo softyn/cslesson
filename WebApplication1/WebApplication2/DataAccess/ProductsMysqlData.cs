@@ -13,6 +13,7 @@ namespace GameAPI.DataAccess
         IEnumerable<Products> LoadProductsById(int id, out bool success);
         bool SaveProduct(Products product, out bool success);
         bool DeleteProduct(int id, out bool success);
+        bool EditProduct(Products product, out bool success);
     }
     public class ProductsMysqlData :IProductsDataSource
     {
@@ -58,11 +59,11 @@ namespace GameAPI.DataAccess
             success = true;
             try
             {
-                var query = "INSERT INTO news (`title`, `text`, `date`) VALUES('" + product.Name + "', '" + product.Description + "', '" + product.Price + "')";
+                var query = "INSERT INTO products (`name`, `description`, `price`) VALUES('" + product.Name + "', '" + product.Description + "', " + product.Price + ")";
                 _conn.Query<News>(query);
                 _conn.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 success = false;
             }
@@ -76,6 +77,23 @@ namespace GameAPI.DataAccess
             try
             {
                 _conn.Query<News>("DELETE FROM products WHERE id = " + id);
+                _conn.Close();
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        public bool EditProduct(Products product, out bool success)
+        {
+            success = true;
+            try
+            {
+                var query = "UPDATE products SET `name`='" + product.Name + "', `description`='" + product.Description + "', `price`='" + product.Price + "' WHERE `id`=" + product.Id;
+                _conn.Query<Products>(query);
                 _conn.Close();
             }
             catch (Exception)

@@ -13,6 +13,7 @@ namespace GameAPI.DataAccess
         IEnumerable<News> LoadNewsById(int id, out bool success);
         bool SaveNews(News news, out bool success);
         bool DeleteNews(int id, out bool success);
+        bool EditNews(News news, out bool success);
     }
 
     public class NewsMysqlData :INewsDataSource
@@ -70,12 +71,30 @@ namespace GameAPI.DataAccess
 
             return success;
         }
+
         public bool DeleteNews(int id, out bool success)
         {
             success = true;
             try
             {
                 _conn.Query<News>("DELETE FROM news WHERE id = " + id).Single();
+                _conn.Close();
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        public bool EditNews(News news, out bool success)
+        {
+            success = true;
+            try
+            {
+                var query = "UPDATE news SET `title`='"+ news.Title +" [EDIT]', `text`='"+ news.Text +"' WHERE `id`="+news.Id;
+                _conn.Query<News>(query);
                 _conn.Close();
             }
             catch (Exception)

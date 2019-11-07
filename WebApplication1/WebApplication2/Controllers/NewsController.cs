@@ -58,11 +58,30 @@ namespace GameAPI.Controllers
                 addNews.SaveNews(news, out bool success);
             }
 
-            // PUT api/news/5
-            [HttpPut("{id}")]
-            public void Put(int id, [FromBody] string value)
+            // PATCH api/news/5
+            [HttpPatch("{id}")]
+            public void Patch(int id, [FromBody] JObject data)
             {
-            }
+                News news = new News();
+                data.ToObject<News>();
+                news.Id = id;
+                var getNewsById = new NewsMysqlData();                
+                var newsOld = getNewsById.LoadNewsById(id, out bool LoadSuccess).ToList();
+                if (data["title"].ToString().Length == 0)
+                {
+                    news.Title = newsOld.ElementAt(0).Title;
+                }
+                else news.Title = data["title"].ToString();
+
+                if (data["text"].ToString().Length == 0)
+                {
+                    news.Text = newsOld.ElementAt(0).Text;
+                }
+                else news.Text = data["text"].ToString();
+
+                var addNews = new DataAccess.NewsMysqlData();
+                addNews.EditNews(news, out bool success);
+        }
 
             // DELETE api/news/5
             [HttpDelete("{id}")]
