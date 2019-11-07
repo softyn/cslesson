@@ -18,12 +18,13 @@ namespace GameAPI.Controllers
     [Route("api/[controller]")]
     public class NewsValuesController : Controller
     {
-        private INewsDataSource _adapterNews; //do czego to tworzyliśmy?
+        public INewsDataSource AdapterNews { get; }
+
         public NewsValuesController(INewsDataSource newsDataSource)
         {
-            _adapterNews = newsDataSource;
+            AdapterNews = newsDataSource;
             //todo:
-            // - pozostale metody
+            // - pozostale metody (/)
             // - obsluga bledow
             // - testy
             // - UI
@@ -54,7 +55,7 @@ namespace GameAPI.Controllers
                 news.Title = data["title"].ToString();
                 news.Text = data["text"].ToString();
                 news.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                var addNews = new DataAccess.NewsMysqlData();
+                var addNews = new NewsMysqlData();
                 addNews.SaveNews(news, out bool success);
             }
 
@@ -67,19 +68,12 @@ namespace GameAPI.Controllers
                 news.Id = id;
                 var getNewsById = new NewsMysqlData();                
                 var newsOld = getNewsById.LoadNewsById(id, out bool LoadSuccess).ToList();
-                if (data["title"].ToString().Length == 0)
-                {
-                    news.Title = newsOld.ElementAt(0).Title;
-                }
-                else news.Title = data["title"].ToString();
 
-                if (data["text"].ToString().Length == 0)
-                {
-                    news.Text = newsOld.ElementAt(0).Text;
-                }
-                else news.Text = data["text"].ToString();
+                news.Title = data["title"].ToString().Length == 0 ? newsOld.ElementAt(0).Title : data["title"].ToString();
 
-                var addNews = new DataAccess.NewsMysqlData();
+                news.Text = data["text"].ToString().Length == 0 ? newsOld.ElementAt(0).Text : data["text"].ToString();
+
+                var addNews = new NewsMysqlData();
                 addNews.EditNews(news, out bool success);
         }
 
@@ -87,7 +81,7 @@ namespace GameAPI.Controllers
             [HttpDelete("{id}")]
             public void Delete(int id)
             {
-                var addNews = new DataAccess.NewsMysqlData();
+                var addNews = new NewsMysqlData();
                 addNews.DeleteNews(id, out bool success);
             }
         }

@@ -7,15 +7,6 @@ using GameAPI.DTO;
 
 namespace GameAPI.DataAccess
 {
-    public interface INewsDataSource
-    {
-        IEnumerable<News> LoadNews(out bool success);
-        IEnumerable<News> LoadNewsById(int id, out bool success);
-        bool SaveNews(News news, out bool success);
-        bool DeleteNews(int id, out bool success);
-        bool EditNews(News news, out bool success);
-    }
-
     public class NewsMysqlData :INewsDataSource
     {
         private const string ConnectionString = "Server=localhost;Port=3306;Database=game;Uid=root;Pwd=root";
