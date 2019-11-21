@@ -8,13 +8,6 @@ using Newtonsoft.Json.Linq;
 
 namespace GameAPI.Controllers
 {
-    public enum NewsWriteStatus //do czego to tworzyliśmy?
-    {
-        Written = 56,
-        Deleted = 78,
-        Empty = 1000
-    }
-
     [Route("api/[controller]")]
     public class NewsValuesController : Controller
     {
@@ -26,16 +19,25 @@ namespace GameAPI.Controllers
             //todo:
             // - pozostale metody (/)
             // - obsluga bledow
-            // - testy
             // - UI
+            // - testy
+
         }
 
-            // GET api/news
-            [HttpGet()]
+        // GET api/news
+        [HttpGet()]
             public ActionResult<IEnumerable<News>> Get()
             {                
                 var getNews = new NewsMysqlData();
-                return getNews.LoadNews(out bool success).ToList();                     
+               
+                
+                var list =  getNews.LoadNews(out bool success,out string errorMessage).ToList();
+                if (!success)
+                {
+                    return BadRequest(new {Message="Error getting data."});             
+                }
+
+                return list;
             }
 
             // GET api/news/5
@@ -43,12 +45,24 @@ namespace GameAPI.Controllers
             public ActionResult<IEnumerable<News>> Get(int id)
             {
                 var getNewsById = new NewsMysqlData();
-                return getNewsById.LoadNewsById(id, out bool success).ToList();
+                var list = getNewsById.LoadNewsById(id, out bool success).ToList();
+            
+                if (!success)
+                {
+                    return BadRequest(new { Message = "Error getting data." });
+                }
+
+                if (list.Count == 0)
+                {
+                    return NotFound(new {Message = $"{id} doesn't exist."});
+                }
+
+                return list;
             }
 
             // POST api/news
             [HttpPost]
-            public void Post([FromBody] JObject data)
+            public ActionResult Post([FromBody] JObject data)
             {
                 News news = new News();
                 data.ToObject<News>();
@@ -56,12 +70,19 @@ namespace GameAPI.Controllers
                 news.Text = data["text"].ToString();
                 news.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 var addNews = new NewsMysqlData();
-                addNews.SaveNews(news, out bool success);
+                var add = addNews.SaveNews(news, out bool success);
+
+                if (!success)
+                {
+                   return BadRequest(new { Message = "Error adding data." });
+                }
+
+            return Ok(new { Message = "News successfully added." });
             }
 
             // PATCH api/news/5
             [HttpPatch("{id}")]
-            public void Patch(int id, [FromBody] JObject data)
+            public ActionResult Patch(int id, [FromBody] JObject data)
             {
                 News news = new News();
                 data.ToObject<News>();
@@ -74,15 +95,29 @@ namespace GameAPI.Controllers
                 news.Text = data["text"].ToString().Length == 0 ? newsOld.ElementAt(0).Text : data["text"].ToString();
 
                 var addNews = new NewsMysqlData();
-                addNews.EditNews(news, out bool success);
-        }
+                var update = addNews.EditNews(news, out bool success);
+
+                if (!success)
+                {
+                    return BadRequest(new { Message = "Error editing data." });
+                }
+
+                return Ok(new { Message = "News successfully edited." });
+            }
 
             // DELETE api/news/5
             [HttpDelete("{id}")]
-            public void Delete(int id)
+            public ActionResult Delete(int id)
             {
                 var addNews = new NewsMysqlData();
-                addNews.DeleteNews(id, out bool success);
-            }
+                var delete = addNews.DeleteNews(id, out bool success);
+
+                if (!success)
+                {
+                    return BadRequest(new { Message = "Error editing data." });
+                }
+
+                return Ok(new { Message = "News successfully edited." });
+        }
         }
     }

@@ -9,13 +9,6 @@ using Newtonsoft.Json.Linq;
 
 namespace GameAPI.Controllers
 {
-    public enum ProductsWriteStatus //do czego to tworzyliśmy?
-    {
-        Written = 56,
-        Deleted = 78,
-        Empty = 1000
-    }
-
     [Route("api/[controller]")]
     public class ProductsValuesController : Controller
     {
@@ -36,7 +29,14 @@ namespace GameAPI.Controllers
         public ActionResult<IEnumerable<Products>> Get()
         {
             var getProducts = new ProductsMysqlData();
-            return getProducts.LoadProducts(out bool success).ToList();
+            var list = getProducts.LoadProducts(out bool success).ToList();
+
+            if (!success)
+            {
+                return BadRequest(new { Message = "Error getting data." });
+            }
+
+            return list;
         }
 
         // GET api/products/5
@@ -44,12 +44,22 @@ namespace GameAPI.Controllers
         public ActionResult<IEnumerable<Products>> Get(int id)
         {
             var getProducts = new ProductsMysqlData();
-            return getProducts.LoadProductsById(id, out bool success).ToList();
+            var list = getProducts.LoadProductsById(id, out bool success).ToList();
+
+            if (!success)
+            {
+                return BadRequest(new {Message = "Error getting data"});
+            }
+
+            if (list.Count == 0)
+            {
+                return NotFound(new {Message = $"Item with id {id} not found"});
+            }
         }
 
         // POST api/products
         [HttpPost]
-        public void Post([FromBody] JObject data)
+        public ActionResult Post([FromBody] JObject data)
         {
             Products product = new Products();
             data.ToObject<News>();
@@ -57,12 +67,19 @@ namespace GameAPI.Controllers
             product.Description = data["description"].ToString();
             product.Price = float.Parse(data["price"].ToString());
             var addProduct = new ProductsMysqlData();
-            addProduct.SaveProduct(product, out bool success);
+            var add = addProduct.SaveProduct(product, out bool success);
+
+            if (!success)
+            {
+                return BadRequest(new { Message = "Error with adding data" });
+            }
+
+            return Ok(new {Message = $"Product {product.Name} added."});
         }
 
         // PATCH api/products/5
         [HttpPatch("{id}")]
-        public void Patch(int id, [FromBody] JObject data)
+        public ActionResult Patch(int id, [FromBody] JObject data)
         {
             Products product = new Products();
             data.ToObject<News>();
@@ -77,15 +94,29 @@ namespace GameAPI.Controllers
             product.Price = data["price"].ToString().Length == 0 ? productOld.ElementAt(0).Price : float.Parse(data["price"].ToString());
 
             var addProduct = new ProductsMysqlData();
-            addProduct.EditProduct(product, out bool success);
+            var add = addProduct.EditProduct(product, out bool success);
+
+            if (!success)
+            {
+                return BadRequest(new {Message = "Error with editing item."});
+            }
+
+            return Ok("Product edited.");
+
         }
 
         // DELETE api/products/5
         [HttpDelete("{id}")]
-        public bool Delete(int id)
+        public ActionResult Delete(int id)
         {
             var getProducts = new ProductsMysqlData();
-            return getProducts.DeleteProduct(id, out bool success);
+            var delete = getProducts.DeleteProduct(id, out bool success);
+            if (!success)
+            {
+                return BadRequest(new { Message = "Error with deleting item." });
+            }
+
+            return Ok("Product deleted.");
         }
 
     }

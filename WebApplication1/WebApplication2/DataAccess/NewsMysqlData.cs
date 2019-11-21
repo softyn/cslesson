@@ -12,17 +12,19 @@ namespace GameAPI.DataAccess
         private const string ConnectionString = "Server=localhost;Port=3306;Database=game;Uid=root;Pwd=root";
         private readonly MySqlConnection _conn = new MySqlConnection(ConnectionString);
 
-        public IEnumerable<News> LoadNews(out bool success)
+        public IEnumerable<News> LoadNews(out bool success,out string errorMessage)
         {
-            success = true;            
+            success = true;
+            errorMessage = "";
             try
             {
                 var news = _conn.Query<News>("select id,title,text,date from news");               
                 success = true;
                 return news.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                errorMessage = ex.Message;
                 success = false;
 
             }
