@@ -38,7 +38,7 @@ namespace GameAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseCors("bbb");
             app.UseMvc();
         }

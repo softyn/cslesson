@@ -55,6 +55,8 @@ namespace GameAPI.Controllers
             {
                 return NotFound(new {Message = $"Item with id {id} not found"});
             }
+
+            return list;
         }
 
         // POST api/products

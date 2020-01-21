@@ -17,8 +17,6 @@ namespace GameAPI.Controllers
         {
             AdapterNews = newsDataSource;
             //todo:
-            // - pozostale metody (/)
-            // - obsluga bledow
             // - UI
             // - testy
 

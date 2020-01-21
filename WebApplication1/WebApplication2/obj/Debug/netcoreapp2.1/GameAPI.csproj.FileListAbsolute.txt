@@ -4,7 +4,6 @@ C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.dll
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\GameAPI.pdb
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.csprojAssemblyReference.cache
-C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.csproj.CoreCompileInputs.cache
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorAssemblyInfo.cache
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorAssemblyInfo.cs
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.AssemblyInfoInputs.cache
@@ -12,3 +11,8 @@ C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.RazorTargetAssemblyInfo.cache
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.dll
 C:\Work\Learning\cslesson\WebApplication1\WebApplication2\obj\Debug\netcoreapp2.1\GameAPI.pdb
+C:\work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\appsettings.json
+C:\work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\wwwroot\abc.html
+C:\work\Learning\cslesson\WebApplication1\WebApplication2\bin\Debug\netcoreapp2.1\wwwroot\a.html

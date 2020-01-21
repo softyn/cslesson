@@ -1,0 +1,48 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <html lang="en"> <head> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <title>Title Goes Here</title> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+                  <body>
+
+                      <script>
+                          $(document).ready(function () {
+                              loadfunctionAjax();
+                          });
+                          var loadfunctionAjax = function () {
+                              $.ajax({
+                                  type: 'GET',
+                                  url: 'https://localhost:44383/api/NewsValues',
+                                  contentType: "application/json; charset=utf-8",
+                                  dataType: "json",
+                                  crossDomain: true,
+                                  success: function (data) {
+                                      var HTML = '';
+                                      for (var i = 0; i < data.length; i++) {
+                                          item = data[i];
+                                          HTML += '<li><a class="" target="_blank" href="' + item.title + '"><i class="fa ' + item.id + '"></i>' + item.text + '</a ></li > ';
+                                      }
+                                      $('#footerSocialNav').append(HTML);
+                                  }
+                              });
+                          }
+
+
+
+                      </script>
+                      <div id="footerSocialNav"> </div>
+                  </body>
+</html>
+<!-- $.getJSON('https://localhost:44383/api/NewsValues', {mode: 'no-cors'})
+.then(res => res.json())
+.then(data => {
+   $.each(data, function (key, entry) {
+	alert(key.body);
+	var node = document.createElement("LI");                 // Create a <li> node
+	var textnode = document.createTextNode(entry.title);         // Create a text node
+	node.appendChild(textnode);    
+
+			});
+})
+.catch(error => console.error(error)) --!>
+</body>
