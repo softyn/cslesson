@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using  Dapper;
-using WebApplication1.DTO;
+using Dapper;
 
 namespace WebApplication1.DataAccess
 {

@@ -17,19 +17,18 @@ namespace GameAPI.Controllers
         {
             AdapterNews = newsDataSource;
             //todo:
-            // - UI
             // - testy
 
         }
 
         // GET api/news
         [HttpGet()]
-            public ActionResult<IEnumerable<News>> Get()
+            public ActionResult<List<News>> Get()
             {                
-                var getNews = new NewsMysqlData();
+                //var getNews = new NewsMysqlData();
                
                 
-                var list =  getNews.LoadNews(out bool success,out string errorMessage).ToList();
+                var list =  AdapterNews.LoadNews(out bool success,out string errorMessage).ToList();
                 if (!success)
                 {
                     return BadRequest(new {Message="Error getting data."});             
@@ -60,26 +59,41 @@ namespace GameAPI.Controllers
 
             // POST api/news
             [HttpPost]
-            public ActionResult Post([FromBody] JObject data)
+            public JsonResult Post([FromBody] JObject data)
             {
                 News news = new News();
                 data.ToObject<News>();
                 news.Title = data["title"].ToString();
                 news.Text = data["text"].ToString();
                 news.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                var addNews = new NewsMysqlData();
-                var add = addNews.SaveNews(news, out bool success);
+                var add = AdapterNews.SaveNews(news, out bool success);
 
                 if (!success)
                 {
-                   return BadRequest(new { Message = "Error adding data." });
+                    var res = new JsonResult(new { Error = "Error adding data." });
+                    res.StatusCode = 500;
+                    return res;
                 }
 
-            return Ok(new { Message = "News successfully added." });
+            return new JsonResult(new { Message = "News successfully added." });
             }
+            [HttpPost("Post2")]
+            public JsonResult PostV2([FromBody] News data)
+            {
 
-            // PATCH api/news/5
-            [HttpPatch("{id}")]
+                var add = AdapterNews.SaveNews(data, out bool success);
+
+                if (!success)
+                {
+                    var res = new JsonResult(new { Error = "Error adding data." });
+                    res.StatusCode = 500;
+                    return res;
+                }
+
+                return new JsonResult(new { Message = "News successfully added." });
+            }
+        // PATCH api/news/5
+        [HttpPatch("{id}")]
             public ActionResult Patch(int id, [FromBody] JObject data)
             {
                 News news = new News();

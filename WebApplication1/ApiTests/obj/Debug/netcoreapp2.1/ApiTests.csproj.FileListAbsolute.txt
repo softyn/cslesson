@@ -6,7 +6,6 @@ C:\Work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\ApiTe
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\ApiTests.runtimeconfig.dev.json
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\ApiTests.dll
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.csprojAssemblyReference.cache
-C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.csproj.CoreCompileInputs.cache
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.AssemblyInfoInputs.cache
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.AssemblyInfo.cs
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\ApiTests.pdb
@@ -15,3 +14,6 @@ C:\Work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\WebAp
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.csproj.CopyComplete
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.dll
 C:\Work\Learning\cslesson\WebApplication1\ApiTests\obj\Debug\netcoreapp2.1\ApiTests.pdb
+C:\work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\appsettings.json
+C:\work\Learning\cslesson\WebApplication1\ApiTests\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
